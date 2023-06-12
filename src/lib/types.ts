@@ -1,4 +1,3 @@
-export interface ICategory {
-  category: string;
-  properties: string[];
+export interface ICategories {
+  [category: string]: string[];
 }
