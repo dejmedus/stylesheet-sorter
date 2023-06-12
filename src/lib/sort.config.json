@@ -1,4 +1,17 @@
 {
+    "order": [
+        "*",
+        "Box Model",
+        "Typography",
+        "Background and Visual",
+        "Grid",
+        "Flexbox",
+        "Margin and Padding",
+        "Border",
+        "Width and Height",
+        "Transformations and Animations",
+        "Other"
+    ],
     "categories": {
         "*": [],
         "Box Model": [
