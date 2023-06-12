@@ -11,6 +11,8 @@ Automatically sort CSS properties on save. Use your preferred sort order to keep
 - **Flexible categorization**: Properties are grouped into categories for easier sorting.
 - **Use alongside formatters like prettier.**
 
+#### ⚠ Limitation: **Comments inside CSS blocks are removed during sorting**
+
 <img src="images/beforeandafter.png" alt="Before and after" style="border-radius: 12px;">
 
 ## Extension Settings
