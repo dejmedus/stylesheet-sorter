@@ -6,10 +6,10 @@ Automatically sort CSS properties on save. Use your preferred sort order to keep
 
 ## Features
 
-- Automatic sorting: CSS properties are sorted upon saving a file.
-- Customizable sort order: Configure the order properties should be sorted.
-- Flexible categorization: Properties can be grouped into categories for a more organized structure.
-- Use alongside formatters like prettier.
+- **Automatic sorting**: CSS properties are sorted upon saving a file.
+- **Customizable sort order**: Configure the order properties should be sorted.
+- **Flexible categorization**: Properties can be grouped into categories for a more organized structure.
+- **Use alongside formatters like prettier.**
 
 <img src="images/beforeandafter.png" alt="Before and after" style="border-radius: 12px;">
 
