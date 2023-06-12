@@ -3,13 +3,13 @@
 import * as vscode from "vscode";
 import { sortCSS } from "./sort-css";
 import * as sortConfig from "./lib/sort.config.json";
-import { ICategory } from "./lib/types";
+import { ICategories } from "./lib/types";
 
 let disposable: vscode.Disposable | undefined;
 
 export function activate(context: vscode.ExtensionContext) {
-  // get properties list
-  const properties: ICategory[] = sortConfig.properties;
+  // get categories list
+  const categories: ICategories = sortConfig.categories;
 
   // get config from workspace or use default sort order
   const config = vscode.workspace.getConfiguration("css-style-sorter");
@@ -27,24 +27,27 @@ export function activate(context: vscode.ExtensionContext) {
     "Other",
   ]);
 
-  disposable = vscode.workspace.onDidSaveTextDocument(
-    (document: vscode.TextDocument) => {
-      // if file is CSS, replace current stylesheet with sorted CSS
-      if (document.languageId === "css") {
-        const text = document.getText();
-        const sortedCSS = sortCSS(text, sortOrder, properties);
+  // on save inside css files, sort CSS
+  let disposable = vscode.workspace.onWillSaveTextDocument((event) => {
+    if (event.document.languageId === "css") {
+      const text = event.document.getText();
+      const sortedCSS = sortCSS(text, sortOrder, categories);
 
-        const edit = new vscode.WorkspaceEdit();
-        const documentUri = document.uri;
-        const wholeRange = new vscode.Range(
-          document.positionAt(0),
-          document.positionAt(text.length)
-        );
-        edit.replace(documentUri, wholeRange, sortedCSS);
-        vscode.workspace.applyEdit(edit);
-      }
+      // on willSave + waitUntil prevents looping
+      event.waitUntil(
+        Promise.resolve([
+          new vscode.TextEdit(
+            new vscode.Range(
+              event.document.positionAt(0),
+              event.document.positionAt(text.length)
+            ),
+            sortedCSS
+          ),
+        ])
+      );
     }
-  );
+  });
+
   context.subscriptions.push(disposable);
 }
 
