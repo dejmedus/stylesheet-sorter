@@ -2,7 +2,8 @@
   "name": "css-style-sorter",
   "displayName": "CSS Style Sorter",
   "description": "Automatically sort CSS styles for neater stylesheets",
-  "icon": "images/css-style-sorter.png",
+  "icon": "https://github.com/dejmedus/css-style-sorter/blob/main/images/css-style-sorter.png",
+  "homepage": "https://github.com/dejmedus/css-style-sorter",
   "version": "0.0.1",
   "publisher": "dejmedus",
   "engines": {
