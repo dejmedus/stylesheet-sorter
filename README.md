@@ -13,7 +13,7 @@ Automatically sort CSS properties on save. Use your preferred sort order to keep
 
 #### ⚠ Limitation: **Comments inside CSS blocks are removed during sorting**
 
-<img src="images/beforeandafter.png" alt="Before and after" style="border-radius: 12px;">
+<img src="https://github.com/dejmedus/css-style-sorter/blob/main/images/beforeandafter.png" alt="Before and after">
 
 ## Extension Settings
 
