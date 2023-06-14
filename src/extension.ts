@@ -1,9 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { sortCSS } from "./sort-css";
+import { sortCSS } from "./sortCSS";
 import * as sortConfig from "./lib/sort.config.json";
 import { ICategories } from "./lib/types";
+import getPropertiesMap from "./helpers/getPropertiesMap";
 
 let disposable: vscode.Disposable | undefined;
 
@@ -15,12 +16,13 @@ export function activate(context: vscode.ExtensionContext) {
     sortConfig.categories
   );
   const sortOrder: string[] = config.get("sortOrder", sortConfig.order);
+  const propertiesMap = getPropertiesMap(sortOrder, categories);
 
   // on save inside css files, sort CSS
   let disposable = vscode.workspace.onWillSaveTextDocument((event) => {
     if (event.document.languageId === "css") {
       const text = event.document.getText();
-      const sortedCSS = sortCSS(text, sortOrder, categories);
+      const sortedCSS = sortCSS(text, propertiesMap);
 
       // onWillSave + waitUntil prevents looping
       event.waitUntil(
