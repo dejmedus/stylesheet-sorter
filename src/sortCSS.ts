@@ -1,12 +1,4 @@
-import {
-  parse,
-  walk,
-  generate,
-  Rule,
-  Declaration,
-  Block,
-  CssNode,
-} from "css-tree";
+import { parse, walk, generate } from "css-tree";
 import { IPropertiesMap, IEditorConfig } from "./lib/types";
 import sortList from "./helpers/sortList";
 
@@ -20,11 +12,9 @@ export function sortCSS(
   const ast = parse(text, {
     positions: true,
     onComment: function (value, loc) {
-      console.log(value);
       commentMap[loc.start.line] = value;
     },
   });
-  console.log(commentMap);
 
   walk(ast, (node) => {
     if (node.type === "Rule") {
