@@ -9,11 +9,12 @@ Automatically sort CSS properties on save. Use your preferred sort order to keep
 - **Automatic sorting**: CSS properties are sorted upon saving a file.
 - **Customizable sort order**: Configure the order properties should be sorted.
 - **Flexible categorization**: Properties are grouped into categories for easier sorting.
-- **Use alongside formatters like prettier.**
+- Respects editor settings like indent size, collapse/expand brackets, and newlines between rules.
+- Can be used alongside formatters like prettier.
 
-#### ⚠ Limitation: **Comments inside CSS blocks are removed during sorting**
+ ⚠️ **Limitation: Comments and blank spaces in CSS files are removed** ⚠️
 
-<img src="/images/beforeandafter.png" alt="Before and after">
+![Before and after](https://github.com/dejmedus/css-style-sorter/blob/main/images/beforeandafter.png?raw=true)
 
 ## Extension Settings
 
@@ -24,8 +25,8 @@ Custom sort order and categories can be configured in settings.
    - Press `Ctrl+` (Windows/Linux) / `Cmd+` (Mac).
 2. Search for "CSS Style Sorter" in the search bar at the top of the settings window.
 3. Modify the settings according to your preferences:
-   - `css-style-sorter.sortOrder`: Defines the sort order of categories.
-   - `css-style-sorter.categories`: Group properties by category.
+   - `CSS Style Sorter: Sort Order`: Defines the sort order of categories.
+   - `CSS Style Sorter: Categories`: Group properties by category.
 
 The default sort order is: `Box Model, Typography, Background and Visual, Grid, Flexbox, Margin and Padding, Border, Width and Height, Transformations and Animations, and Other`
 
@@ -46,12 +47,36 @@ Category example:
 ]
 ```
 
+Formatting is based off of editor settings, including:
+
+- Editor: Indent Size
+- CSS > Format: Brace Style
+- CSS > Format: Newline Between Rules
+
 <!-- ## Release Notes
 
 ### 1.0.0
 
 Initial release
 -->
+
+## Known Issues
+
+- Comments and empty lines are removed during sorting [fix in-progress]
+
+```css
+.beforeSorting {
+   /* This comment will be removed */
+   color: pink;
+
+   display: grid;
+}
+.afterSorting {
+   display: grid;
+   color: pink;
+}
+```
+
 ---
 
 Built with TypeScript & [CSSTree](https://github.com/csstree/csstree)
