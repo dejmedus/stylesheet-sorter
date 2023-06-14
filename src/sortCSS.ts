@@ -20,13 +20,13 @@ export function sortCSS(
   const ast = parse(text, {
     positions: true,
     onComment: function (value, loc) {
+      console.log(value);
       commentMap[loc.start.line] = value;
     },
   });
+  console.log(commentMap);
 
-  let css = "";
   walk(ast, (node) => {
-    // add comments
     if (node.type === "Rule") {
       const sortedList = sortList(node.block.children, propertiesMap);
       node.block.children.clear();
@@ -34,7 +34,6 @@ export function sortCSS(
     }
   });
 
-  // return css;
   return formatCSS(generate(ast), editorConfig);
 }
 
@@ -47,6 +46,7 @@ function formatCSS(css: string, editorConfig: IEditorConfig): string {
   css = css.replace(/([^}])\s*(})/g, "$1;}"); // ensure each declaration ends with a ;
   css = css.replace(/;\s*(?!})/g, ";\n"); // newline after each css property
   css = css.replace(/{/g, openBracket); // newline after {
+  css = css.replace(/}}/g, "\n}}"); // new line after } inside block
   css = css.replace(/\}(?![\}])/g, closeBracket); // new line after } not inside block
   css = css.replace(/(?<!:):(?![-\w]+\s*\{)[\s]*/g, ": "); // space after property name (color: )
   css = css.replace(/,\s*/g, ", "); // space between comma separated selectors
