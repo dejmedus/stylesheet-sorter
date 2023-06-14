@@ -5,3 +5,9 @@ export interface ICategories {
 export interface IPropertiesMap {
   [property: string]: number;
 }
+
+export interface IEditorConfig {
+  indentSize: number;
+  collapse: "collapse" | "expand";
+  newline: boolean;
+}
