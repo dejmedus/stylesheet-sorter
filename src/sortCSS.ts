@@ -7,11 +7,15 @@ import {
   Block,
   CssNode,
 } from "css-tree";
-import { IPropertiesMap } from "./lib/types";
+import { IPropertiesMap, IEditorConfig } from "./lib/types";
 import sortList from "./helpers/sortList";
 
 // replace selector properties list with sorted properties list
-export function sortCSS(text: string, propertiesMap: IPropertiesMap): string {
+export function sortCSS(
+  text: string,
+  propertiesMap: IPropertiesMap,
+  editorConfig: IEditorConfig
+): string {
   const commentMap: { [location: string]: string } = {};
   const ast = parse(text, {
     positions: true,
@@ -27,130 +31,48 @@ export function sortCSS(text: string, propertiesMap: IPropertiesMap): string {
       const sortedList = sortList(node.block.children, propertiesMap);
       node.block.children.clear();
       node.block.children.appendList(sortedList);
-      // css += generateCSS(node);
     }
   });
 
   // return css;
-  return formatCSS(generate(ast));
+  return formatCSS(generate(ast), editorConfig);
 }
 
-function formatCSS(css: string): string {
-  css = css.replace(/{/g, " {\n");
-  css = css.replace(/}/g, "\n}\n\n");
-  css = css.replace(/;/g, ";\n");
-  // css = css.replace(/:/g, ": ");
-  css = css.replace(/,\S+/g, ", ");
+function formatCSS(css: string, editorConfig: IEditorConfig): string {
+  // formatting and indentation config
+  const openBracket = editorConfig.collapse === "collapse" ? " {\n" : "\n{\n";
+  const closeBracket = editorConfig.newline ? "\n}\n\n" : "\n}\n";
 
-  // Add indentation
-  const indentSize = 2;
-  const indentChar = " ";
+  // formatting rules
+  css = css.replace(/([^}])\s*(})/g, "$1;}"); // ensure each declaration ends with a ;
+  css = css.replace(/;\s*(?!})/g, ";\n"); // newline after each css property
+  css = css.replace(/{/g, openBracket); // newline after {
+  css = css.replace(/\}(?![\}])/g, closeBracket); // new line after } not inside block
+  css = css.replace(/(?<!:):(?![-\w]+\s*\{)[\s]*/g, ": "); // space after property name (color: )
+  css = css.replace(/,\s*/g, ", "); // space between comma separated selectors
 
+  // indentation rules
   let indentLevel = 0;
   let formattedCSS = "";
 
-  // Split the CSS into individual lines
   const lines = css.split("\n");
-
   for (let line of lines) {
     line = line.trim();
 
+    // at end of block decrease the indentation level
     if (line.endsWith("}")) {
-      // Decrease the indentation level
       indentLevel--;
     }
 
-    // Add indentation for the current line
-    for (let i = 0; i < indentLevel; i++) {
-      formattedCSS += indentChar.repeat(indentSize);
+    formattedCSS += " ".repeat(editorConfig.indentSize * indentLevel);
+
+    // at beginning of block increase the indentation level
+    if (line.endsWith("{")) {
+      indentLevel++;
     }
 
     formattedCSS += line + "\n";
-
-    if (line.endsWith("{")) {
-      // Increase the indentation level
-      indentLevel++;
-    }
   }
 
   return formattedCSS.trim();
 }
-
-// function generateCSS(curRule: Rule): string {
-//   function generateDeclaration(declaration: Declaration): string {
-//     let valueStr = "";
-
-//     if (declaration.value.type === "Value") {
-//       declaration.value.children.forEach((valueNode) => {
-//         console.log(valueNode.type);
-//         if (valueNode.type === "Identifier") {
-//           valueStr += `${valueNode.name} `;
-//         } else if (
-//           valueNode.type === "Percentage" ||
-//           valueNode.type === "Number" ||
-//           valueNode.type === "Dimension"
-//         ) {
-//           valueStr += `${valueNode.value} `;
-//         }
-//       });
-//     }
-//     return `${declaration.property}: ${valueStr.slice(
-//       0,
-//       valueStr.length - 1
-//     )};`;
-//   }
-
-//   function generateBlock(block: Block, indentLevel: number): string {
-//     const indent = " ".repeat(indentLevel * 2);
-//     let blockCSS = "";
-
-//     block.children.forEach((child) => {
-//       // add comments
-//       if (child.type === "Declaration") {
-//         blockCSS += `${indent}${generateDeclaration(child)}\n`;
-//       }
-//     });
-
-//     return blockCSS;
-//   }
-
-//   function removeComma(str: string) {
-//     return str.slice(0, str.length - 2);
-//   }
-
-//   function generateRule(rule: Rule, indentLevel: number): string {
-//     const indent = " ".repeat(indentLevel * 2);
-//     let ruleCSS = "";
-
-//     if (rule.prelude.type === "SelectorList") {
-//       let selectors = "";
-//       rule.prelude.children.forEach((selectorNode) => {
-//         if (selectorNode.type === "Selector") {
-//           selectorNode.children.forEach((selector) => {
-//             if (
-//               selector.type === "ClassSelector" ||
-//               selector.type === "IdSelector" ||
-//               selector.type === "AttributeSelector" ||
-//               selector.type === "TypeSelector"
-//             ) {
-//               selectors += `${selector.name}, `;
-//             } else if (
-//               selector.type === "PseudoClassSelector" ||
-//               selector.type === "PseudoElementSelector"
-//             ) {
-//               selectors = removeComma(selectors);
-//               selectors += `:${selector.name}, `;
-//             }
-//           });
-//         }
-//       });
-//       ruleCSS += `${indent}${removeComma(selectors)} {\n`;
-//       ruleCSS += generateBlock(rule.block, indentLevel + 1);
-//       ruleCSS += `${indent}}\n`;
-//     }
-//     return ruleCSS;
-//   }
-//   const css = generateRule(curRule, 0);
-//   console.log(css);
-//   return css;
-// }
