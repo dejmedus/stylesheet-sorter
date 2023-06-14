@@ -3,7 +3,7 @@
 import * as vscode from "vscode";
 import { sortCSS } from "./sortCSS";
 import * as sortConfig from "./lib/sort.config.json";
-import { ICategories } from "./lib/types";
+import { ICategories, IEditorConfig } from "./lib/types";
 import getPropertiesMap from "./helpers/getPropertiesMap";
 
 let disposable: vscode.Disposable | undefined;
@@ -18,11 +18,23 @@ export function activate(context: vscode.ExtensionContext) {
   const sortOrder: string[] = config.get("sortOrder", sortConfig.order);
   const propertiesMap = getPropertiesMap(sortOrder, categories);
 
+  const indentSize: number = config.get("editor.indentSize", 2);
+  const collapse: "collapse" | "expand" = config.get(
+    "css.format.braceStyle",
+    "collapse"
+  );
+  const newline: boolean = config.get("css.format.newlineBetweenRules", true);
+  const editorConfig: IEditorConfig = {
+    indentSize: indentSize,
+    collapse: collapse,
+    newline: newline,
+  };
+
   // on save inside css files, sort CSS
   let disposable = vscode.workspace.onWillSaveTextDocument((event) => {
     if (event.document.languageId === "css") {
       const text = event.document.getText();
-      const sortedCSS = sortCSS(text, propertiesMap);
+      const sortedCSS = sortCSS(text, propertiesMap, editorConfig);
 
       // onWillSave + waitUntil prevents looping
       event.waitUntil(
