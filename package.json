@@ -31,20 +31,21 @@
       "type": "object",
       "properties": {
         "CSS Style Sorter.Sort Order": {
-          "type": "array",
-          "default": [
-            "*",
-            "Box Model",
-            "Typography",
-            "Background and Visual",
-            "Grid",
-            "Flexbox",
-            "Margin and Padding",
-            "Border",
-            "Width and Height",
-            "Transformations and Animations",
-            "Other"
-          ],
+          "type": "object",
+          "default": {
+            "sortOrder": [
+              "Box Model",
+              "Typography",
+              "Background and Visual",
+              "Grid",
+              "Flexbox",
+              "Margin and Padding",
+              "Border",
+              "Width and Height",
+              "Transformations and Animations",
+              "Other"
+            ]
+          },
           "items": {
             "type": "string"
           },
@@ -54,7 +55,6 @@
           "type": "object",
           "default": {
             "categories": {
-              "*": [],
               "Box Model": [
                 "display",
                 "position",

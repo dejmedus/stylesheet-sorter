@@ -1,19 +1,19 @@
 {
-    "order": [
-        "*",
-        "Box Model",
-        "Typography",
-        "Background and Visual",
-        "Grid",
-        "Flexbox",
-        "Margin and Padding",
-        "Border",
-        "Width and Height",
-        "Transformations and Animations",
-        "Other"
-    ],
+    "order": {
+        "sortOrder": [
+            "Typography",
+            "Background and Visual",
+            "Grid",
+            "Flexbox",
+            "Margin and Padding",
+            "Border",
+            "Width and Height",
+            "Transformations and Animations",
+            "Other",
+            "Box Model"
+        ]
+    },
     "categories": {
-        "*": [],
         "Box Model": [
             "display",
             "position",
