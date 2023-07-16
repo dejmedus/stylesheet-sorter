@@ -14,7 +14,7 @@ Automatically sort CSS properties on save. Use your preferred sort order to keep
 
  ⚠️ **Limitation: Comments and blank spaces in CSS files are removed** ⚠️
 
-![Before and after](https://github.com/dejmedus/css-style-sorter/blob/main/images/beforeandafter.png?raw=true)
+![Before and after](https://github.com/dejmedus/css-style-sorter/blob/main/images/beforeandafter.png)
 
 ## Extension Settings
 
@@ -62,7 +62,7 @@ Initial release
 
 ## Known Issues
 
-- Comments and empty lines are removed during sorting [fix in-progress]
+Comments and empty lines are removed during sorting
 
 ```css
 .beforeSorting {
