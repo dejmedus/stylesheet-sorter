@@ -14,7 +14,7 @@ Automatically sort CSS properties on save. Use your preferred sort order to keep
 
  ⚠️ **Limitation: Comments and blank lines in CSS files are removed**
 
-<img width="627" alt="Before and after" src="https://github.com/dejmedus/css-style-sorter/assets/59973863/6c47f121-9010-4211-aadc-fc4279deb7c7">
+<img width="627" alt="beforeandafter" src="https://github.com/dejmedus/css-style-sorter/assets/59973863/3c79e2f6-81ea-4920-bb11-143bb56d2e6d">
 
 ## Extension Settings
 
