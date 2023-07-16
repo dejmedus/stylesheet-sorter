@@ -12,9 +12,9 @@ Automatically sort CSS properties on save. Use your preferred sort order to keep
 - Respects editor settings like indent size, collapse/expand brackets, and newlines between rules.
 - Can be used alongside formatters like prettier.
 
- ⚠️ **Limitation: Comments and blank spaces in CSS files are removed** ⚠️
+ ⚠️ **Limitation: Comments and blank lines in CSS files are removed**
 
-![Before and after](https://github.com/dejmedus/css-style-sorter/blob/main/images/beforeandafter.png)
+<img src="images/beforeandafter.png" alt="Before and after">
 
 ## Extension Settings
 
