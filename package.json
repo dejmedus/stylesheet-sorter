@@ -9,7 +9,7 @@
     "url": "https://github.com/dejmedus/css-style-sorter"
   },
   "pricing": "Free",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "dejmedus",
   "engines": {
     "vscode": "^1.79.0"
