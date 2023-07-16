@@ -8,14 +8,14 @@ export default function sortList(
   const listArray: CssNode[] = list.toArray();
 
   const { toSort, toAppend } = listArray.reduce(
-    (result: { toSort: CssNode[]; toAppend: CssNode[] }, a: CssNode) => {
+    (result: { toSort: CssNode[]; toAppend: CssNode[] }, node: CssNode) => {
       if (
-        a.type === "Declaration" &&
-        propertiesMap.hasOwnProperty(a.property)
+        node.type === "Declaration" &&
+        propertiesMap.hasOwnProperty(node.property)
       ) {
-        result.toSort.push(a);
+        result.toSort.push(node);
       } else {
-        result.toAppend.push(a);
+        result.toAppend.push(node);
       }
       return result;
     },
