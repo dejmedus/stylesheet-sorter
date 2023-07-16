@@ -1,6 +1,7 @@
 {
     "order": {
         "sortOrder": [
+            "Box Model",
             "Typography",
             "Background and Visual",
             "Grid",
@@ -9,8 +10,7 @@
             "Border",
             "Width and Height",
             "Transformations and Animations",
-            "Other",
-            "Box Model"
+            "Other"
         ]
     },
     "categories": {
