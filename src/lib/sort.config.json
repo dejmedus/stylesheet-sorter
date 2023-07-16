@@ -2,13 +2,13 @@
     "order": {
         "sortOrder": [
             "Box Model",
-            "Typography",
-            "Background and Visual",
             "Grid",
             "Flexbox",
             "Margin and Padding",
             "Border",
             "Width and Height",
+            "Typography",
+            "Background and Visual",
             "Transformations and Animations",
             "Other"
         ]

@@ -28,7 +28,7 @@ Custom sort order and categories can be configured in settings.
    - `CSS Style Sorter: Sort Order`: Defines the sort order of categories.
    - `CSS Style Sorter: Categories`: Group properties by category.
 
-The default sort order is: `Box Model, Typography, Background and Visual, Grid, Flexbox, Margin and Padding, Border, Width and Height, Transformations and Animations, and Other`
+The default sort order is: `Box Model, Grid, Flexbox, Margin and Padding, Border, Width and Height, Typography, Background and Visual, Transformations and Animations, and Other`
 
 Category example:
 
