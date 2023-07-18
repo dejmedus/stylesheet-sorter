@@ -9,3 +9,8 @@ Notable changes will be documented in this file.
 - Initial release
 - Sort CSS properties on save
 - Known Issues: doesn't preserve whitespace or comments
+
+## [0.0.4]
+
+- Updated default sort order and categories
+- Add forgotten `flex-direction`
