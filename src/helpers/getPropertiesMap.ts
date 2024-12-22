@@ -1,49 +1,43 @@
 import * as vscode from "vscode";
-import { ICategories } from "../lib/types";
-import * as sortConfig from "../lib/sort.config.json";
+import { ICategories, IPropertiesMap } from "../lib/types";
+import { defaultSortOrder, defaultCategories } from "../lib/defaultConfig";
 
-export default function getPropertiesMap() {
-  // get config from workspace or use default properties and sort order
-  const config = vscode.workspace.getConfiguration("CSS Style Sorter");
-  let categories: ICategories = config.get("Categories", sortConfig.categories);
-  let sortOrder: string[] = config.get(
-    "Sort Order",
-    sortConfig.order
-  ).sortOrder;
+/**
+ * Get the properties map for sorting
+ *
+ * @returns {IPropertiesMap} - the properties map for sorting
+ */
+export default function getPropertiesMap(): IPropertiesMap {
+  const config = vscode.workspace.getConfiguration("Stylesheet Sorter");
+  let categories: ICategories = config.get("Categories", {});
+  let sortOrder: string[] = config.get("Sort Order", []);
 
-  // ensure valid config files - categories in sort order must exist in categories list
-  let validConfig = Object.keys(categories).length === sortOrder.length;
+  let validConfig =
+    Object.keys(categories).length === sortOrder.length && sortOrder.length > 0;
 
-  if (validConfig) {
-    for (let i = 0; i < sortOrder.length; i++) {
-      if (!Object.keys(categories).includes(sortOrder[i])) {
+  validConfig &&
+    sortOrder.forEach((category) => {
+      if (!Object.keys(categories).includes(category)) {
         validConfig = false;
-        console.error(
-          "CSS Style Sorter: No category ",
-          sortOrder[i],
-          " found."
-        );
-
-        break;
+        console.error(`Stylesheet Sorter: No category ${category} found.`);
       }
-    }
-  }
+    });
 
-  // if config is invalid, use defaults
   if (!validConfig) {
     console.error(
-      "CSS Style Sorter: Invalid configuration. Please check sort order in settings. Using default sort order."
+      "Stylesheet Sorter: Invalid configuration. Please check sort order in settings. Using default sort order."
     );
-    categories = sortConfig.categories;
-    sortOrder = sortConfig.order.sortOrder;
+    categories = defaultCategories;
+    sortOrder = defaultSortOrder;
   }
 
-  let propertiesMap: { [property: string]: number } = {};
+  let propertiesMap: IPropertiesMap = {};
   let index = 0;
-  for (let i = 0; i < sortOrder.length; i++) {
-    for (let j = 0; j < categories[sortOrder[i]].length; j++) {
-      propertiesMap[categories[sortOrder[i]][j]] = index++;
-    }
-  }
+  sortOrder.forEach((category) => {
+    categories[category].forEach((property) => {
+      propertiesMap[property] = index++;
+    });
+  });
+
   return propertiesMap;
 }
