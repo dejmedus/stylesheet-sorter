@@ -1,6 +1,17 @@
 import * as vscode from "vscode";
 
-export default function getEditorConfig() {
+interface EditorConfig {
+  indentSize: number;
+  collapse: "collapse" | "expand";
+  newline: boolean;
+}
+
+/**
+ * Get the editor configuration settings for the current workspace
+ *
+ * @returns {EditorConfig} - the editor configuration settings
+ */
+export default function getEditorConfig(): EditorConfig {
   const editor = vscode.workspace.getConfiguration("editor");
   let indentSize: number = editor.get("indentSize", 2);
 

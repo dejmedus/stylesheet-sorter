@@ -1,13 +1,15 @@
-export interface ICategories {
+interface ICategories {
   [category: string]: string[];
 }
 
-export interface IPropertiesMap {
+interface IPropertiesMap {
   [property: string]: number;
 }
 
-export interface IEditorConfig {
+interface IEditorConfig {
   indentSize: number;
   collapse: "collapse" | "expand";
   newline: boolean;
 }
+
+export { ICategories, IPropertiesMap, IEditorConfig };

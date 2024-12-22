@@ -7,14 +7,14 @@ let disposable: vscode.Disposable | undefined;
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.workspace.onWillSaveTextDocument((event) => {
-    if (event.document.languageId === "css") {
-      // get current configuration settings
+    const languages = ["css", "scss"];
+
+    if (languages.includes(event.document.languageId)) {
       const propertiesMap = getPropertiesMap();
       const editorConfig = getEditorConfig();
 
-      // get css from file and sort
-      const text = event.document.getText();
-      const sortedCSS = sortCSS(text, propertiesMap, editorConfig);
+      const stylesheet = event.document.getText();
+      const sortedCSS = sortCSS(stylesheet, propertiesMap, editorConfig);
 
       // onWillSave + waitUntil prevents looping
       event.waitUntil(
@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
           new vscode.TextEdit(
             new vscode.Range(
               event.document.positionAt(0),
-              event.document.positionAt(text.length)
+              event.document.positionAt(stylesheet.length)
             ),
             sortedCSS
           ),
