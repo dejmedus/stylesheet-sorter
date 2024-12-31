@@ -1,33 +1,69 @@
-import { parse, walk, generate } from "css-tree";
-import { IPropertiesMap, IEditorConfig } from "./lib/types";
-import sortList from "./helpers/sortList";
-import formatCSS from "./helpers/formatCSS";
+import { IPropertiesMap } from "./lib/types";
 
 /**
- * Sorts CSS properties
- *
- *  * Uses `parse`, `walk`, and `generate` from the `css-tree` library
- * {@link https://github.com/csstree/csstree/blob/612cc5f2922b2304869497d165a0cc65257f7a8b/docs/definition-syntax.md|css-tree docs}
+ * Sorts stylesheets by property order
  *
  * @param {string} stylesheet stylesheet to sort
  * @param {IPropertiesMap} propertiesMap properties map to sort the css
- * @param {IEditorConfig} editorConfig editor configuration settings
  * @returns {string} the sorted stylesheet
  */
 export function sortCSS(
   stylesheet: string,
-  propertiesMap: IPropertiesMap,
-  editorConfig: IEditorConfig
+  propertiesMap: IPropertiesMap
 ): string {
-  const ast = parse(stylesheet);
+  // https://regex101.com/r/8463Hl/1
+  const regex = /\{(\s*([^{}]*?)\s*)\}/gm;
 
-  walk(ast, (node) => {
-    if (node.type === "Rule") {
-      const sortedList = sortList(node.block.children, propertiesMap);
-      node.block.children.clear();
-      node.block.children.appendList(sortedList);
+  return stylesheet.replace(regex, (block, innerText, declarations) => {
+    if (!declarations) {
+      return block;
     }
-  });
 
-  return formatCSS(generate(ast), editorConfig);
+    const trailingSpacesNum =
+      innerText.length - innerText.trimStart().length - 1;
+    const trailingSpaces = " ".repeat(trailingSpacesNum);
+
+    return sortBlock(block, declarations, trailingSpaces, propertiesMap);
+  });
+}
+
+/**
+ * Sorts style blocks found by regex.
+ *
+ * @param block - The full style block found by regex. ex: { color: red; background-color: blue; }
+ * @param declarations - The declarations. ex: color: red; background-color: blue;
+ * @param trailingSpaces - The trailing spaces before the block.
+ * @param propertiesMap - Object that maps properties to their sort order index.
+ */
+function sortBlock(
+  block: string,
+  declarations: string,
+  trailingSpaces: string,
+  propertiesMap: { [key: string]: number }
+) {
+  const unsortedDeclarations = declarations
+    .split(";")
+    .map((dec) => dec.trim())
+    .filter((dec) => dec !== "");
+
+  if (!unsortedDeclarations.length) {
+    return block;
+  }
+
+  const sortedDeclarations = unsortedDeclarations.sort(
+    (aDec: string, bDec: string) => {
+      const a = aDec.split(":")[0].trim();
+      const b = bDec.split(":")[0].trim();
+
+      const aIndex = propertiesMap[a] || Number.MAX_VALUE;
+      const bIndex = propertiesMap[b] || Number.MAX_VALUE;
+
+      return bIndex - aIndex;
+    }
+  );
+
+  const sortedDeclarationsStr =
+    sortedDeclarations.join(`;\n${trailingSpaces}`) + ";";
+
+  return block.replace(declarations, sortedDeclarationsStr);
 }
