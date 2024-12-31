@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import { sortCSS } from "./sortCSS";
-import getPropertiesMap from "./helpers/getPropertiesMap";
-import getEditorConfig from "./helpers/getEditorConfig";
+import getPropertiesMap from "./getPropertiesMap";
 
 let disposable: vscode.Disposable | undefined;
 
@@ -11,10 +10,9 @@ export function activate(context: vscode.ExtensionContext) {
 
     if (languages.includes(event.document.languageId)) {
       const propertiesMap = getPropertiesMap();
-      const editorConfig = getEditorConfig();
 
       const stylesheet = event.document.getText();
-      const sortedCSS = sortCSS(stylesheet, propertiesMap, editorConfig);
+      const sortedCSS = sortCSS(stylesheet, propertiesMap);
 
       // onWillSave + waitUntil prevents looping
       event.waitUntil(
