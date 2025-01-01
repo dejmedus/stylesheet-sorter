@@ -6,10 +6,6 @@ interface IPropertiesMap {
   [property: string]: number;
 }
 
-interface IEditorConfig {
-  indentSize: number;
-  collapse: "collapse" | "expand";
-  newline: boolean;
-}
+type Declaration = `${string}: ${string}`;
 
-export { ICategories, IPropertiesMap, IEditorConfig };
+export { ICategories, IPropertiesMap, Declaration };
