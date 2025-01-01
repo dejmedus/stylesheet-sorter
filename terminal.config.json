@@ -7,12 +7,12 @@
     },
     {
       "name": "git",
-      "commands": ["git branch"],
+      "commands": ["clear", "git branch"],
       "description": "open git tab"
     },
     {
       "name": "test",
-      "commands": [],
+      "commands": ["clear"],
       "description": "open test tab"
     }
   ],

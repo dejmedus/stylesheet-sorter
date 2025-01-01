@@ -5,7 +5,6 @@
 Automatically sort CSS properties on save. Use your preferred sort order to keep your stylesheets organized.
 
 
-
 ## Extension Settings
 
 Custom sort order and categories can be configured in settings.
@@ -36,8 +35,4 @@ Category example:
    "box-sizing"
 ]
 ```
-
----
-
-Built with [CSSTree](https://github.com/csstree/csstree)
 
