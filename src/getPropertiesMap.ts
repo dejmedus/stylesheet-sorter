@@ -9,8 +9,8 @@ import { defaultSortOrder, defaultCategories } from "./lib/defaultConfig";
  */
 export default function getPropertiesMap(): IPropertiesMap {
   const config = vscode.workspace.getConfiguration("Stylesheet Sorter");
-  let categories: ICategories = config.get("Categories", {});
-  let sortOrder: string[] = config.get("Sort Order", []);
+  let categories: ICategories = config.get("categories", {});
+  let sortOrder: string[] = config.get("sortOrder", []);
 
   let validConfig =
     Object.keys(categories).length === sortOrder.length && sortOrder.length > 0;

@@ -34,7 +34,7 @@
       "title": "Stylesheet Sorter",
       "type": "object",
       "properties": {
-        "Stylesheet Sorter.Sort Order": {
+        "stylesheetSorter.sortOrder": {
           "type": "array",
           "items": {
             "type": "string"
@@ -54,7 +54,7 @@
           "additionalProperties": false,
           "description": "Sort order of CSS categories"
         },
-        "Stylesheet Sorter.Categories": {
+        "stylesheetSorter.categories": {
           "type": "object",
           "default": {
             "boxModel": [
