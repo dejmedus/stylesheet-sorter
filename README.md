@@ -5,6 +5,11 @@
 Automatically sort CSS properties on save. Use your preferred sort order to keep your stylesheets organized.
 
 
+
+https://github.com/user-attachments/assets/4492f217-6155-4b8e-a229-2c62227d8135
+
+
+
 ## Extension Settings
 
 Custom sort order and categories can be configured in settings.
